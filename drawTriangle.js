@@ -133,4 +133,4 @@ function drawTriangle3DUV(vertices, uv) {
     
     
     }
-    
+  

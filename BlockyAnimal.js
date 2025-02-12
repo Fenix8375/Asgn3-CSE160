@@ -34,7 +34,8 @@ var VSHADER_SOURCE = `
         } else if (u_whichTexture == 2) {
             gl_FragColor = texture2D(u_Sampler2, v_UV);
         } else {
-            gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0); 
+            gl_FragColor = vec4(0.6, 0.4, 0.2, 1.0);
+
         }
     }`;
 
@@ -135,7 +136,7 @@ function initTextures() {
     
 
     image0.src = "GoodSky.png"; 
-    image1.src = "fire.jpg";
+    image1.src = "grass.jpg";
     image2.src = "dirt.jpg";
 }
 
@@ -160,7 +161,9 @@ function sendTextureToGLSL(n, u_Sampler, image) {
     console.log(`Texture ${n} Loaded:`, gl.getParameter(gl.TEXTURE_BINDING_2D));
 }
 
-
+let lastX = -1;
+let lastY = -1;
+let isDragging = false;
 
 function addActionsForHtmlUI(){
 
@@ -181,6 +184,39 @@ function addActionsForHtmlUI(){
         renderScene();
     });
     
+    document.addEventListener("mousedown", (event) => {
+
+        lastX = event.clientX;
+        lastY = event.clientY;
+        isDragging = true;
+
+    });
+
+    document.addEventListener("mousemove", (event) => {
+        if (isDragging) {
+            let deltaX = event.clientX - lastX;
+            let deltaY = event.clientY - lastY;
+            g_camera.pan(deltaX, deltaY);
+            lastX = event.clientX;
+            lastY = event.clientY;
+            renderScene();
+        }
+    });
+
+    document.addEventListener("mouseup", () => {
+        isDragging = false;
+    });
+
+    document.addEventListener("wheel", (event) => {
+        if(event.deltaY < 0){
+
+            g_camera.moveForward();
+
+        }else{
+            g_camera.moveBackwards();
+        }
+        renderScene();
+    });
 }
 
 function main() {
@@ -226,35 +262,31 @@ function keydown(ev){
 
 // var g_up = [0,1,0];
 
-var g_map = [
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 1, 0, 0, 1, 0, 0, 0, 0, 1],
-    [1, 0, 1, 0, 0, 0, 1, 0, 0, 1],
-    [1, 0, 0, 1, 1, 0, 0, 0, 0, 1],
-    [1, 0, 0, 1, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 1, 0, 0, 0, 1],
-    [1, 0, 1, 0, 1, 0, 1, 0, 1, 1],
-    [1, 1, 0, 0, 0, 1, 0, 1, 1, 1],
-    [1, 0, 0, 0, 0, 0, 0, 1, 0, 1],
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-];
+var g_map = [];
+for (var i = 0; i < 32; i++) {
+    g_map[i] = [];
+    for (var j = 0; j < 32; j++) {
+        g_map[i][j] = Math.random() > 0.8 ? Math.floor(Math.random() * 4) : 0;
+    }
+}
+
 
 function drawMap(){
     for(var x = 0; x < g_map.length; x++){
-        for(var y = 0; y < g_map[x].length; y++){
-
-            if (g_map[x][y] == 1){
-                var blocks = new Cube();
-                blocks.color = [1, 1, 1, 1];
-                blocks.textureNum = 2;
-                blocks.matrix.translate(x - g_map.length/2, -0.75, y - g_map[x].length/2);
-                gl.uniform1i(u_whichTexture, blocks.textureNum);
-                blocks.renderfast();
+        for(var z = 0; z < g_map[x].length; z++){
+            var height = g_map[x][z];
+            for (var y = 0; y < height; y++) {
+                var block = new Cube();
+                block.color = [1, 1, 1, 1];
+                block.textureNum = 3;
+                block.matrix.translate(x - g_map.length / 2, y - 0.75, z - g_map[x].length / 2);
+                gl.uniform1i(u_whichTexture, block.textureNum);
+                block.renderfast();
             }
-
         }
     }
 }
+
 
 
 
@@ -289,9 +321,9 @@ function renderScene() {
 
     var floor = new Cube();
     floor.color = [1.0, 0.0, 0.0, 1.0];
-    floor.textureNum = -1;
+    floor.textureNum = 1;
     floor.matrix.translate(0, -.75, 0.0);
-    floor.matrix.scale(10, 0 ,10);
+    floor.matrix.scale(32, 0 ,32);
     floor.matrix.translate(-0.5, 0, -0.5);
     floor.render();
 
@@ -300,7 +332,7 @@ function renderScene() {
     var sky = new Cube();
     sky.color = [0.529, 0.808, 0.922, 1.0];
     sky.textureNum = -2;
-    sky.matrix.scale(50,50,50);
+    sky.matrix.scale(1000,1000,1000);
     sky.matrix.translate(-0.5, -0.5, -0.5);
     sky.render();
 

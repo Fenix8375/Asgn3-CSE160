@@ -13,6 +13,17 @@ class Camera {
         this.updateProjectionMatrix(canvas);
     }
 
+    
+    pan(deltaX, deltaY) {
+        g_camera.panLeft(-deltaX * 0.5);
+        let upDownRotationMatrix = new Matrix4().setRotate(-deltaY * 0.1, 1, 0, 0); 
+        let f = new Vector3(this.at.elements).sub(this.eye);
+        let rotatedF = upDownRotationMatrix.multiplyVector3(f);
+        this.at.set(rotatedF.add(this.eye));
+        this.updateViewMatrix();
+    }
+
+
     updateViewMatrix() {
         this.viewMatrix.setLookAt(
             this.eye.elements[0], this.eye.elements[1], this.eye.elements[2], 
