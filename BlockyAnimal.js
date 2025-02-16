@@ -330,7 +330,7 @@ function renderScene() {
         cloud.matrix.translate(0, -0.75, 0.0);
         cloud.matrix.scale(scale, scale, scale);
         cloud.matrix.translate(translateX, translateY, translateZ);
-        cloud.render();
+        cloud.renderfast();
     }
     
     createCloud(2, 5, 8, -8);
