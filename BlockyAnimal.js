@@ -256,11 +256,6 @@ function keydown(ev){
 
 }
 
-// var g_eye = [0,0,3];
-
-// var g_at = [0,0,-100];
-
-// var g_up = [0,1,0];
 
 var g_map = [];
 for (var i = 0; i < 32; i++) {
@@ -278,7 +273,7 @@ function drawMap(){
             for (var y = 0; y < height; y++) {
                 var block = new Cube();
                 block.color = [1, 1, 1, 1];
-                block.textureNum = 3;
+                block.textureNum = 2;
                 block.matrix.translate(x - g_map.length / 2, y - 0.75, z - g_map[x].length / 2);
                 gl.uniform1i(u_whichTexture, block.textureNum);
                 block.renderfast();
@@ -302,7 +297,6 @@ function renderScene() {
     gl.uniformMatrix4fv(u_ProjectionMatrix, false, g_camera.projectionMatrix.elements);
 
     var viewMat = new Matrix4();
-    // viewMat.setLookAt(g_eye[0], g_eye[1], g_eye[2],   g_at[0], g_at[1], g_at[2],    g_up[0], g_up[1], g_up[2]); //eye, at, up 
 
     viewMat.setLookAt(g_camera.eye.x, g_camera.eye.y, g_camera.eye.z,
         g_camera.at.x, g_camera.at.y, g_camera.at.z,
@@ -327,6 +321,128 @@ function renderScene() {
     floor.matrix.translate(-0.5, 0, -0.5);
     floor.render();
 
+    //Clouds
+
+    function createCloud(scale, translateX, translateY, translateZ) {
+        var cloud = new Cube();
+        cloud.color = [0.6, 0.6, 0.6, 1.0];
+        cloud.textureNum = -2;
+        cloud.matrix.translate(0, -0.75, 0.0);
+        cloud.matrix.scale(scale, scale, scale);
+        cloud.matrix.translate(translateX, translateY, translateZ);
+        cloud.render();
+    }
+    
+    createCloud(2, 5, 8, -8);
+    createCloud(1.8, 5, 8, -8);
+    createCloud(1.8, 6, 8, -8);
+    
+    createCloud(2, -12, 8, 6);
+    createCloud(1.8, -12, 8, 6);
+    createCloud(1.8, -13, 8, 6);
+    
+    createCloud(2, -3, 8, 10);
+    createCloud(1.8, -3, 8, 10);
+    createCloud(1.8, -4, 8, 10);
+    
+    createCloud(2, 8, 8, -14);
+    createCloud(1.8, 8, 8, -14);
+    createCloud(1.8, 9, 8, -14);
+    
+    createCloud(2, -7, 8, 3);
+    createCloud(1.8, -7, 8, 3);
+    createCloud(1.8, -8, 8, 3);
+    
+    createCloud(2, 11, 8, -5);
+    createCloud(1.8, 11, 8, -5);
+    createCloud(1.8, 12, 8, -5);
+    
+    createCloud(2, -6, 8, 12);
+    createCloud(1.8, -6, 8, 12);
+    createCloud(1.8, -7, 8, 12);
+    
+    createCloud(2, 2, 8, -17);
+    createCloud(1.8, 2, 8, -17);
+    createCloud(1.8, 3, 8, -17);
+    
+    createCloud(2, 10, 8, -1);
+    createCloud(1.8, 10, 8, -1);
+    createCloud(1.8, 11, 8, -1);
+    
+    createCloud(2, -9, 8, -10);
+    createCloud(1.8, -9, 8, -10);
+    createCloud(1.8, -10, 8, -10);
+    
+    createCloud(2, 4, 8, 8);
+    createCloud(1.8, 4, 8, 8);
+    createCloud(1.8, 5, 8, 8);
+    
+    createCloud(2, -14, 8, -12);
+    createCloud(1.8, -14, 8, -12);
+    createCloud(1.8, -15, 8, -12);
+    
+    createCloud(2, 3, 8, 15);
+    createCloud(1.8, 3, 8, 15);
+    createCloud(1.8, 4, 8, 15);
+    
+    createCloud(2, -2, 8, -6);
+    createCloud(1.8, -2, 8, -6);
+    createCloud(1.8, -3, 8, -6);
+    
+    createCloud(2, 7, 8, 11);
+    createCloud(1.8, 7, 8, 11);
+    createCloud(1.8, 8, 8, 11);
+
+    createCloud(2, -8, 8, -15);
+    createCloud(1.8, -8, 8, -15);
+    createCloud(1.8, -9, 8, -15);
+    
+    createCloud(2, 6, 8, 4);
+    createCloud(1.8, 6, 8, 4);
+    createCloud(1.8, 7, 8, 4);
+    
+    createCloud(2, -3, 8, -8);
+    createCloud(1.8, -3, 8, -8);
+    createCloud(1.8, -4, 8, -8);
+    
+    createCloud(2, 12, 8, 9);
+    createCloud(1.8, 12, 8, 9);
+    createCloud(1.8, 13, 8, 9);
+    
+    createCloud(2, -10, 8, -2);
+    createCloud(1.8, -10, 8, -2);
+    createCloud(1.8, -11, 8, -2);
+    
+    createCloud(2, 5, 8, -11);
+    createCloud(1.8, 5, 8, -11);
+    createCloud(1.8, 6, 8, -11);
+    
+    createCloud(2, -13, 8, 6);
+    createCloud(1.8, -13, 8, 6);
+    createCloud(1.8, -14, 8, 6);
+    
+    createCloud(2, 9, 8, -4);
+    createCloud(1.8, 9, 8, -4);
+    createCloud(1.8, 10, 8, -4);
+    
+    createCloud(2, -4, 8, 13);
+    createCloud(1.8, -4, 8, 13);
+    createCloud(1.8, -5, 8, 13);
+    
+    createCloud(2, 2, 8, -17);
+    createCloud(1.8, 2, 8, -17);
+    createCloud(1.8, 3, 8, -17);
+    
+    // Sun
+
+
+    var sun = new Cube();
+    sun.color = [1.0, 0.8, 0.0, 1.0]; 
+    sun.textureNum = -2; 
+    sun.matrix.translate(16, 20,-16);
+    sun.matrix.scale(8, 8, 10);
+    sun.render();
+
     //Sky
 
     var sky = new Cube();
@@ -336,22 +452,17 @@ function renderScene() {
     sky.matrix.translate(-0.5, -0.5, -0.5);
     sky.render();
 
+    // Dark Sky
+
+    // var sky = new Cube();
+    // sky.color = [0.529, 0.808, 0.922, 1.0];
+    // sky.textureNum = -2;
+    // sky.matrix.scale(1000,1000,1000);
+    // sky.matrix.translate(-0.5, -0.5, -0.5);
+    // sky.render();
+
     drawMap();
 
-    // var body = new Cube();
-    // body.color = [1.0, 0.0, 0.0, 1.0];
-    // body.textureNum = -1;
-    // body.matrix.rotate(-5, 1, 0, 0);
-    // body.matrix.scale(0.5, 0.3, 0.5);
-    // body.render();
+    
 
-    // var yellow = new Cube();
-
-    // yellow.color = [1,1,0,1];
-    // yellow.matrix.setTranslate(0, -.5, 0.0);
-    // yellow.matrix.rotate(-5,1,0,0);
-    // var yellowCoords = new Matrix4(yellow.matrix);
-    // yellow.matrix.scale(0.25, .7, .5);
-    // yellow.matrix.translate(-.5,0,0);
-    // yellow.render();
 }
