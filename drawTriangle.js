@@ -62,7 +62,7 @@ function drawTriangle(vertices) {
 
 
 function drawTriangle3D(vertices) {
-      var n = 3; // The number of vertices
+      var n =  vertices.length/3; // The number of vertices
 
       // var n = vertices.length / 2;
     
@@ -133,4 +133,4 @@ function drawTriangle3DUV(vertices, uv) {
     
     
     }
-    
+  
