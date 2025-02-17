@@ -258,9 +258,9 @@ function keydown(ev){
 
 
 var g_map = [];
-for (var i = 0; i < 32; i++) {
+for (var i = 0; i < 40; i++) {
     g_map[i] = [];
-    for (var j = 0; j < 32; j++) {
+    for (var j = 0; j < 40; j++) {
         g_map[i][j] = Math.random() > 0.8 ? Math.floor(Math.random() * 4) : 0;
     }
 }
@@ -317,7 +317,7 @@ function renderScene() {
     floor.color = [1.0, 0.0, 0.0, 1.0];
     floor.textureNum = 1;
     floor.matrix.translate(0, -.75, 0.0);
-    floor.matrix.scale(32, 0 ,32);
+    floor.matrix.scale(40, 0 ,40);
     floor.matrix.translate(-0.5, 0, -0.5);
     floor.render();
 
